@@ -61,17 +61,5 @@ books = [
     }
 ]
 
-@app.get("/books")
-async def get_books():
-    return books
 
-@app.get("/books/title/{title}")
-async def get_book(title: str):
-    book = next((book for book in books if book["title"] == title), None)
-    return book
-
-@app.get("/books/genre/{genre}")
-async def get_books_by_genre(genre: str):
-    result = [book for book in books if book["genre"].lower() == genre.lower()]
-    return result
     
