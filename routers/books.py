@@ -5,7 +5,8 @@ router = APIRouter()
 # Simple test endpoint
 @router.get("/test")
 async def read_root():
-    return {"Hello": "World"}
+    #return {"Hello": "World"}
+    return "This is a test endpoint from the books router."
 
 
 books = [
