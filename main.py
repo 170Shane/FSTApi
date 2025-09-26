@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
+# Simple test endpoint
 @app.get("/test")
 async def read_root():
     return {"Hello": "World"}
@@ -9,6 +10,7 @@ async def read_root():
 
 books = [
     {
+        "id": 1,
         "title": "1984",
         "author": "George Orwell",
         "year": 1949,
@@ -16,6 +18,7 @@ books = [
         "isbn": "9780451524935"
     },
     {
+        "id": 2,
         "title": "To Kill a Mockingbird",
         "author": "Harper Lee",
         "year": 1960,
@@ -23,6 +26,7 @@ books = [
         "isbn": "9780061120084"
     },
     {
+        "id": 3,
         "title": "The Great Gatsby",
         "author": "F. Scott Fitzgerald",
         "year": 1925,
@@ -30,6 +34,7 @@ books = [
         "isbn": "9780743273565"
     },
     {
+        "id": 4,
         "title": "Animal Farm",
         "author": "George Orwell",
         "year": 1945,
@@ -37,13 +42,15 @@ books = [
         "isbn": "9780451526342"
     },
     {
+        "id": 5,
         "title": "Brave New World",
         "author": "Aldous Huxley",
         "year": 1932,
         "genre": "Dystopian",
         "isbn": "9780060850524"
     },
-        {
+    {
+        "id": 6,
         "title": "Brave New World",
         "author": "Shane Clark",
         "year": 2025,
@@ -51,6 +58,7 @@ books = [
         "isbn": "9789990850524"
     },
     {
+        "id": 7,
         "title": "Go Set a Watchman",
         "author": "Harper Lee",
         "year": 2015,
@@ -60,4 +68,22 @@ books = [
 ]
 
 
-    
+
+# Endpoint to get all books
+@app.get("/books/")
+async def read_books():
+    return books
+
+
+# Endpoint to get a book by its ID
+@app.get("/books/{book_id}")
+async def read_book(book_id: int):
+    book = next((book for book in books if book["id"] == book_id), None)
+    if book:
+        return book
+    return {"error": "Book not found"}
+
+
+
+
+
