@@ -77,6 +77,10 @@ async def read_books():
 
 
 # Endpoint to get a book by its ID
+# This is a path parameter which are request parameters that are part of the URL path
+# They are typically used to identify a specific resource by its unique identifier
+# They are defined in the route path using curly braces {}
+# Example: /books/1, /books/2, etc.
 @router.get("/books/{book_id}")
 async def read_book(book_id: int):
     book = next((book for book in books if book["id"] == book_id), None)
