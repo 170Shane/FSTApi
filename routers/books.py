@@ -71,7 +71,7 @@ books = [
 
 
 # Endpoint to get all books
-@router.get("/books/")
+@router.get("/books")
 async def read_books():
     return books
 
@@ -85,6 +85,28 @@ async def read_books():
 async def read_book(book_id: int):
     book = next((book for book in books if book["id"] == book_id), None)
     if book:
+        return book
+    return {"error": "Book not found"}
+
+
+# Query parameters are optional and are typically used to filter or sort resources
+# They are defined in the URL after the question mark (?) and are in key-value pairs
+# Example: /books/?author=George+Orwell, /books/?genre=Dystopian, etc.
+@router.get("/books/")
+async def search_books(genre: str = None):
+    if genre:
+        filtered_books = [book for book in books if book["genre"].lower() == genre.lower()]
+        return filtered_books
+    return books
+
+
+# Path and query parameters can be combined in a single endpoint
+@router.get("/books/{book_id}")
+async def read_book_with_query(book_id: int, author: str = None):
+    book = next((book for book in books if book["id"] == book_id), None)
+    if book:
+        if author and book["author"].lower() != author.lower():
+            return {"error": "Book not found for the specified author"}
         return book
     return {"error": "Book not found"}
 
