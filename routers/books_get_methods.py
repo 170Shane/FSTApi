@@ -111,6 +111,21 @@ async def read_book_with_query(book_id: int, author: str = None):
     return {"error": "Book not found"}
 
 
+# Get all books from a specific author using path parameters
+@router.get("/books/author/{author_name}")
+async def read_books_by_author(author_name: str):
+    filtered_books = [book for book in books if book["author"].lower() == author_name.lower()]
+    if filtered_books:
+        return filtered_books
+    return {"error": "No books found for the specified author"}
 
 
-
+# Get all books from a specific author using query parameters
+@router.get("/books/author/")
+async def read_books_by_author_query(author: str = None):
+    if author:
+        filtered_books = [book for book in books if book["author"].lower() == author.lower()]
+        if filtered_books:
+            return filtered_books
+        return {"error": "No books found for the specified author"}
+    return {"error": "Author query parameter is required"}
